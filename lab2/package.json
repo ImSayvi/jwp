@@ -1,0 +1,25 @@
+{
+  "name": "lab2",
+  "version": "1.0.0",
+  "description": "lab 2 testy node js",
+  "keywords": [
+    "git",
+    "node.js",
+    "lab2"
+  ],
+  "homepage": "https://github.com/ImSayvi/jwp#readme",
+  "bugs": {
+    "url": "https://github.com/ImSayvi/jwp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImSayvi/jwp.git"
+  },
+  "license": "ISC",
+  "author": "Julia S",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "xD"
+  }
+}
