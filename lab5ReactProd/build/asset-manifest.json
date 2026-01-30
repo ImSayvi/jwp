@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/jwp/lab5ReactDev/pappka/static/css/main.e6c13ad2.css",
+    "main.js": "/jwp/lab5ReactDev/pappka/static/js/main.8de3dd1c.js",
+    "static/js/453.0fa73c1b.chunk.js": "/jwp/lab5ReactDev/pappka/static/js/453.0fa73c1b.chunk.js",
+    "index.html": "/jwp/lab5ReactDev/pappka/index.html",
+    "main.e6c13ad2.css.map": "/jwp/lab5ReactDev/pappka/static/css/main.e6c13ad2.css.map",
+    "main.8de3dd1c.js.map": "/jwp/lab5ReactDev/pappka/static/js/main.8de3dd1c.js.map",
+    "453.0fa73c1b.chunk.js.map": "/jwp/lab5ReactDev/pappka/static/js/453.0fa73c1b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.8de3dd1c.js"
+  ]
+}

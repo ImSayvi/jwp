@@ -28,11 +28,7 @@
 </head>
 
 <body>
-	<script async>
-		let name = prompt('Jak masz na imię?', '');
-		document.write('<p>Ćw. 1. Witaj, ' + name + '</p>');
 
-	</script>
 
 	<!-- navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -91,7 +87,7 @@
 						<p>nazwisko:</p>
 					</div>
 					<div class="col-md-4">
-						<p>Kowalski</p>
+						<p id="nazwisko">Sparzak</p>
 					</div>
 				</div>
 				<div class="row">
@@ -99,12 +95,12 @@
 						<p>imię:</p>
 					</div>
 					<div class="col-md-4">
-						<p>Jan</p>
+						<p id="imie">Julia</p>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-2" align="left">
-						<p>grupa:</p>
+						<p id="grupa">grupa:</p>
 					</div>
 					<div class="col-md-4">
 						<p>1</p>
@@ -112,10 +108,10 @@
 				</div>
 				<div class="row">
 					<div class="col-md-2" align="left">
-						<p>email:</p>
+						<p >email:</p>
 					</div>
 					<div class="col-md-4">
-						<p>999@student.ans-elblag.pl</p>
+						<p id="email"> 21198@student.ans-elblag.pl</p>
 					</div>
 				</div>
 				<div class="row">
@@ -123,9 +119,14 @@
 						<p>nr indeksu:</p>
 					</div>
 					<div class="col-md-4">
-						<p>999</p>
+						<p id="indeks">21198</p>
 					</div>
 				</div>
+				<p id="whileOut"></p>
+				<p id="forOut"></p>
+
+				<button onclick="pokazDane()">Pokaż dane z DOM</button>
+
 
 			</div>
 
@@ -138,7 +139,81 @@
 			<div class="jumbotron">
 				<h1>Projekt 1</h1>
 
-				<p>Miejsce na projekt laboratoryjny</p>
+				<p id="licznik"></p>
+
+				<script>
+					let name = prompt('Jak masz na imię?', '');
+					document.write('<p>Ćw. 1. Witaj, ' + name + '</p>');
+
+					// 1
+					let tablica = ['kot','pies','krowa','koń','świnia'];
+					alert(tablica[2]);
+					tablica[tablica.length - 1] = 'kura';
+					alert(tablica[tablica.length - 1]);
+					tablica[5] = 'nowy6';
+					tablica[tablica.length] = 'nowy7';
+					tablica.push('nowy8', 'nowy9', 'nowy10', 'nowy11');
+					tablica.unshift('nowy12', 'nowy13');
+					let usunietyKoniec = tablica.pop();
+					let usunietyPoczatek = tablica.shift();
+					alert('Usunięto: ' + usunietyKoniec + ' oraz ' + usunietyPoczatek);
+
+					// 2
+					document.write('<p>Ćw. 2</p>');
+					let nowaTablica = ['styczeń', 'luty', 'marzec', 'kwiecień'];
+
+					document.write('<p>Pierwszy element to ' + nowaTablica[0] + '</p>');
+					document.write('<p>Ostatni element to ' +
+						nowaTablica[nowaTablica.length - 1] + '</p>');
+
+					nowaTablica.unshift('grudzień');
+
+					document.write('<p>Po unshift pierwszy element to ' +
+						nowaTablica[0] + '</p>');
+
+					// 3
+					const projekt1 = document.getElementById('projekt1');
+					const paragrafy = projekt1.getElementsByTagName('p');
+
+					document.getElementById('licznik').innerHTML ='Liczba akapitów p w sekcji #projekt1: ' +paragrafy.length;
+
+					//4
+					document.getElementById('nazwisko').innerHTML ='Sparzak (' + tablica[0] + ')';
+
+					document.getElementById('imie').innerHTML ='Julia (' + tablica[1] + ')';
+
+					let i = 0;
+					let polowa = Math.floor(tablica.length / 2);
+					let wynikWhile = '';
+
+					while (i < polowa) {
+						wynikWhile += tablica[i] + ' ';
+						i++;
+					}
+
+					document.getElementById('whileOut').innerHTML ='Połowa tablicy (while): ' + wynikWhile;
+
+					let wynikFor = '';
+
+					for (let j = 0; j < polowa; j++) {
+						wynikFor += tablica[j] + ' ';
+					}
+
+					document.getElementById('forOut').innerHTML ='Połowa tablicy (for): ' + wynikFor;
+
+					function pokazDane() {
+						const imie = document.getElementById('imie').innerHTML;
+						const nazwisko = document.getElementById('nazwisko').innerHTML;
+						const indeks = document.getElementById('indeks').innerHTML;
+
+						alert(
+							'Dane pobrane z DOM:\n' +
+							imie + '\n' +
+							nazwisko + '\n' +
+							'Nr indeksu: ' + indeks
+						);
+					}
+				</script>
 
 			</div>
 		</div>
@@ -148,13 +223,54 @@
 	<section id="projekt2">
 		<div class="container">
 			<div class="jumbotron">
-				<h1>Projekt 2</h1>
-				
-				<p>Miejsce na projekt laboratoryjny</p>
-				
+				<h1>Projekt 2 – Quiz</h1>
+
+				<p id="question"></p>
+				<input type="text" id="answer" placeholder="Twoja odpowiedź">
+				<br><br>
+				<button onclick="nextQuestion()">Dalej</button>
+
+				<p id="result"></p>
 			</div>
 		</div>
 	</section>
+	<script>
+		const questions = [
+			['Ile księżyców ma Ziemia?', 1],
+			['Ile księżyców ma Wenus?', 0],
+			['Ile to 2 + 2?', 4]
+		];
+
+		let currentQuestion = 0;
+		let score = 0;
+
+
+		document.getElementById('question').innerHTML = questions[0][0];
+
+		function nextQuestion() {
+			const answerInput = document.getElementById('answer');
+			const userAnswer = parseInt(answerInput.value);
+
+			if (userAnswer === questions[currentQuestion][1]) {
+				alert('Prawidłowa odpowiedź!');
+				score++;
+			} else {
+				alert('Błąd. Prawidłowa odpowiedź to ' + questions[currentQuestion][1]);
+			}
+
+			answerInput.value = '';
+			currentQuestion++;
+
+			if (currentQuestion < questions.length) {
+				document.getElementById('question').innerHTML =
+					questions[currentQuestion][0];
+			} else {
+				document.getElementById('question').innerHTML = 'Koniec quizu';
+				document.getElementById('result').innerHTML =
+					'Twój wynik: ' + score + ' / ' + questions.length;
+			}
+		}
+	</script>
 
 	<footer>
 		<div class="container" style="margin-top: 5%">

@@ -91,37 +91,57 @@
 //   res.end("Błąd serwera: " + err.message);
 // }
 
+const fs = require("fs");
+const events = require("events");
+const util = require("util");
+
 function Watcher(watchDir, processedDir) {
   this.watchDir = watchDir;
   this.processedDir = processedDir;
 }
-const events = require("events");
-const util = require("util");
+
 util.inherits(Watcher, events.EventEmitter);
-const fs = require("fs");
-const watchDir = "./watch";
-const processedDir = "./done";
-Watcher.prototype.watch = function () {
+
+Watcher.prototype.processExistingFiles = function () {
   const watcher = this;
   fs.readdir(this.watchDir, function (err, files) {
-    if (err) throw err;
-    for (var index in files) {
-      watcher.emit("process", files[index]);
+    if (err) {
+      console.error("Błąd odczytu katalogu:", err);
+      return;
+    }
+    files.forEach(file => watcher.emit("process", file));
+  });
+};
+
+Watcher.prototype.start = function () {
+  const watcher = this;
+
+  watcher.processExistingFiles();
+
+  fs.watch(this.watchDir, (eventType, filename) => {
+    if (filename) {
+      watcher.emit("process", filename);
     }
   });
 };
-Watcher.prototype.start = function () {
-  const watcher = this;
-  fs.watchFile(watchDir, function () {
-    watcher.watch();
-  });
-};
+
+const watchDir = "./watch";
+const processedDir = "./done";
 const watcher = new Watcher(watchDir, processedDir);
-watcher.on("process", function process(file) {
-  const watchFile = this.watchDir + "/" + file;
-  const processedFile = this.processedDir + "/" + file.toLowerCase();
-  fs.rename(watchFile, processedFile, function (err) {
-    if (err) throw err;
+
+watcher.on("process", function (file) {
+  const watchFile = `${this.watchDir}/${file}`;
+  const processedFile = `${this.processedDir}/${file.toLowerCase()}`;
+
+  fs.rename(watchFile, processedFile, (err) => {
+    if (err) {
+      console.error("Błąd przenoszenia pliku:", err);
+      return;
+    }
+    console.log(`Przeniesiono plik: ${file} -> ${processedFile}`);
   });
 });
+
+// Uruchomienie Watchera
 watcher.start();
+

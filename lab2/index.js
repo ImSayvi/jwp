@@ -35,6 +35,8 @@
 //  console.log(`Server running at http://${hostname}:${port}/`);
 // });
 
+const capitalize = require('string-capitalize');
+
 const http = require('http');
 const path = require("path");
 const v8 = require("v8");
@@ -53,4 +55,12 @@ server.listen(port, hostname, () => {
   console.log("Current file:", path.basename(__filename));
   console.log("Uploads path:", path.join(__dirname, 'uploads', 'images'));
   console.log(`Server running at http://${hostname}:${port}/`);
+
+  const text = "ala ma kota a kot ma ale";
+  const result = capitalize(text);
+
+  console.log("Moduł string-capitalize:");
+  console.log("Opis: Zamienia pierwszą literę stringa na wielką.");
+  console.log("Przed:", text);
+  console.log("Po:", result);
 });
